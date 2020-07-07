@@ -2,8 +2,10 @@
 
 namespace App\Crawler;
 
-use App\Models\Episode;
-use App\Models\Podcast;
+use App\Persistence\Eloquent\Episode;
+use App\Persistence\Eloquent\Podcast;
+use App\Repositories\EpisodeRepository;
+use App\Repositories\PodcastRepository;
 use App\Scraper\GooglePodcasts\EpisodeData;
 use App\Scraper\GooglePodcasts\EpisodeLinks;
 use App\Scraper\GooglePodcasts\PodcastData;
@@ -34,7 +36,7 @@ class GooglePodcastsCrawler
             $driver = Selenium::createChrome($podcast->google_podcast_url, $secondsSleepingAfterOpenBrowser);
             $html = $driver->findElement(WebDriverBy::tagName('html'))->getAttribute('outerHTML');
             $data = PodcastData::extract($html);
-            Podcast::updateData($podcast->id, $data);
+            PodcastRepository::updateData($podcast->id, $data);
             $driver->quit();
         }
     }
@@ -55,13 +57,13 @@ class GooglePodcastsCrawler
     public static function extractEpisodeData($limit = 200): void
     {
         $episodes = Episode::getWithoutData($limit);
-        $secondsSleepingAfterOpenBrowser = 5;
+        $secondsSleepingAfterOpenBrowser = 3;
         foreach ($episodes as $episode) {
             $driver = Selenium::createChrome($episode->google_podcast_url, $secondsSleepingAfterOpenBrowser);
             $driver->findElement(WebDriverBy::xpath('//span[@role="presentation"]'))->click();
             $html = $driver->findElement(WebDriverBy::tagName('html'))->getAttribute('outerHTML');
             $data = EpisodeData::extract($html);
-            Episode::updatedata($episode->id, $data);
+            EpisodeRepository::updateData($episode->id, $data);
             $driver->quit();
         }
     }

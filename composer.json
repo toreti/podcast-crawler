@@ -10,9 +10,15 @@
     }
   },
   "require": {
+    "elasticsearch/elasticsearch": "^7.8",
     "facebook/webdriver": "^1.7",
+    "illuminate/database": "^7.18",
     "phpunit/phpunit": "^8.5",
     "symfony/dom-crawler": "^5.1",
-    "illuminate/database": "^7.18"
+    "vlucas/phpdotenv": "^5.0"
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
   }
 }

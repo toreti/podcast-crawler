@@ -3,7 +3,7 @@
 namespace App\Tests;
 
 use App\Crawler\GooglePodcastsCrawler;
-use App\Models\Podcast;
+use App\Persistence\Eloquent\Podcast;
 use App\Scraper\GooglePodcasts\PodcastLinks;
 
 class ExtractPodcastLinksTest extends AbstractScraperTestCase

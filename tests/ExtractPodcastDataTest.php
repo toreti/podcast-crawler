@@ -3,6 +3,8 @@
 namespace App\Tests;
 
 use App\Crawler\GooglePodcastsCrawler;
+use App\Persistence\Elasticsearch\PodcastElasticsearchDocument;
+use App\Persistence\Eloquent\Podcast;
 use App\Scraper\GooglePodcasts\PodcastData;
 
 class ExtractPodcastDataTest extends AbstractScraperTestCase
@@ -10,6 +12,21 @@ class ExtractPodcastDataTest extends AbstractScraperTestCase
     public function testExtractPodcastData()
     {
         GooglePodcastsCrawler::extractPodcastData();
+    }
+
+    public function testStoreInElasticsearch()
+    {
+        $podcasts = Podcast::whereNull('deleted_at')->get();
+        $podcastDocument = new PodcastElasticsearchDocument();
+        foreach ($podcasts as $podcast) {
+            $data = [
+                'id' => $podcast->id,
+                'name' => $podcast->name,
+                'author' => $podcast->author,
+                'description' => $podcast->description,
+            ];
+            $podcastDocument->store($data);
+        }
     }
 
     public function testExtractUsingHtml()
