@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Podcast extends Model
 {
-    protected $fillable = ['name', 'author', 'description', 'image_url', 'google_podcast_url'];
+    protected $fillable = ['slug', 'name', 'author', 'description', 'image_url', 'google_podcast_url'];
 
     public static function storeLinks(array $links)
     {

@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Episode extends Model
 {
-    protected $fillable = ['podcast_id', 'title', 'description', 'date', 'duration', 'image_url', 'audio_url', 'google_podcast_url'];
+    protected $fillable = ['podcast_id', 'slug', 'title', 'description', 'date', 'duration', 'image_url', 'audio_url', 'google_podcast_url'];
+
+    public function podcast()
+    {
+        return $this->belongsTo(Podcast::class);
+    }
 
     public static function storeLinks(int $podcastId, array $links)
     {

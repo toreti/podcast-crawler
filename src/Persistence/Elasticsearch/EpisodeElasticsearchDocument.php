@@ -14,9 +14,27 @@ class EpisodeElasticsearchDocument extends AbstractElasticsearchDocument
     {
         $this->params['id'] = $data['id'];
         $this->params['body'] = [
-            'title' => $data['title'],
-            'description' => $data['description'],
+            'doc' => [
+                'slug_podcast' => $data['slug_podcast'],
+                'slug_episode' => $data['slug_episode'],
+                'title' => $data['title'],
+                'description' => $data['description'],
+            ],
         ];
         $this->client->create($this->params);
+    }
+
+    public function update(array $data, $podcastSlug): void
+    {
+        $this->params['id'] = $data['id'];
+        $this->params['body'] = [
+            'doc' => [
+                'slug_podcast' => $podcastSlug,
+                'slug_episode' => $data['slug'],
+                'title' => $data['title'],
+                'description' => $data['description'],
+            ],
+        ];
+        $this->client->update($this->params);
     }
 }

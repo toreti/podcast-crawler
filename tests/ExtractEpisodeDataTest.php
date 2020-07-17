@@ -11,7 +11,7 @@ class ExtractEpisodeDataTest extends AbstractScraperTestCase
 {
     public function testExtractEpisodeData()
     {
-        GooglePodcastsCrawler::extractEpisodeData(10000);
+        GooglePodcastsCrawler::extractEpisodeData(1);
     }
 
     public function testStoreInElasticsearch()
